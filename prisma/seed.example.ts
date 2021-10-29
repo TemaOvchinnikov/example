@@ -47,12 +47,27 @@ const userData: Prisma.UserCreateInput[] = [
           title: 'title1',
           content: 'content1',
         },
+        {
+          title: 'title2',
+          content: 'content2',
+        },
       ],
     },
     images: {
       create: [
         {
           imagePuth: 'imagePuth1',
+          postId: 1,
+        },
+        {
+          imagePuth: 'imagePuth2',
+          postId: 1,
+        },
+      ],
+    },
+    posts_: {
+      create: [
+        {
           postId: 1,
         },
       ],
@@ -63,6 +78,33 @@ const userData: Prisma.UserCreateInput[] = [
     firstName: 'firstname2',
     lastName: 'lastname2',
     avatar: 'avatar2',
+    posts: {
+      create: [
+        {
+          title: 'title1',
+          content: 'content1',
+        },
+        {
+          title: 'title2',
+          content: 'content2',
+        },
+      ],
+    },
+    images: {
+      create: [
+        {
+          imagePuth: 'imagePuth1',
+          postId: 2,
+        },
+      ],
+    },
+    posts_: {
+      create: [
+        {
+          postId: 1,
+        },
+      ],
+    },
   },
 ];
 
