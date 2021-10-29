@@ -103,6 +103,9 @@ const userData: Prisma.UserCreateInput[] = [
         {
           postId: 1,
         },
+        {
+          postId: 2,
+        },
       ],
     },
   },
