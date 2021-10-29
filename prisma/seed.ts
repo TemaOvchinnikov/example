@@ -1,6 +1,12 @@
 ﻿import { PrismaClient, Prisma } from '@prisma/client';
 
 const prisma = new PrismaClient();
+//import faker from 'faker';
+
+const faker = require('faker');
+//import faker from 'faker';
+
+//faker.locale = 'en';
 
 /*
 const userData: Prisma.UserCreateInput[] = [
@@ -17,7 +23,7 @@ const userData: Prisma.UserCreateInput[] = [
     avatar: 'avatar2',
   },
 ];*/
-
+/*
 const userData: Prisma.UserCreateInput[] = [
   {
     email: 'email1@gmail.com',
@@ -34,10 +40,10 @@ const userData: Prisma.UserCreateInput[] = [
     },
   },
   {
-    email: 'email2@gmail.com',
+    email: faker.internet.email(),
     firstName: 'firstname2',
     lastName: 'lastname2',
-    avatar: 'avatar2',
+     avatar: 'avatar2',
     posts: {
       create: [
         {
@@ -49,14 +55,39 @@ const userData: Prisma.UserCreateInput[] = [
   },
 ];
 
+
+const userData: Prisma.UserCreateInput[] = [
+  {
+    email: faker.unique(faker.internet.email),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    avatar: faker.image.avatar(),
+  },
+];*/
+
 async function main() {
   console.log(`Start seeding ...`);
-  for (const u of userData) {
+  //for (const u of userData) {
+  for (let i = 0; i < 7; i++) {
     const user = await prisma.user.create({
-      data: u,
+      data: {
+        email: faker.unique(faker.internet.email),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        avatar: faker.image.avatar(),
+        posts: {
+          create: [
+            {
+              title: faker.name.title(),
+              content: faker.random.word(),
+            },
+          ],
+        },
+      },
     });
     console.log(`Created user with id: ${user.id}`);
   }
+  //}
   console.log(`Seeding finished.`);
 }
 
