@@ -8,44 +8,57 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique @db.VarChar(255)
-  firstname  String    @db.VarChar(255)
-  lastname   String    @db.VarChar(255)
-  created_at DateTime  @default(now())
-  updated_at DateTime?
-  posts      Post[]
-  images     Image[]
-  comments   Comment[]
-  likes      Like[]
-  shares     Share[]
+  id        Int       @id @default(autoincrement())
+  email     String    @unique @db.VarChar(255)
+  firstName String    @db.VarChar(255)
+  lastName  String    @db.VarChar(255)
+  avatar    String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  posts_    Like[]
+  posts     Post[]
+  images    Image[]
+  comments  Comment[]
+  share     Share[]
 
   @@map("users")
 }
 
 model Post {
-  id         Int       @id @default(autoincrement())
-  title      String    @db.VarChar(255)
-  content    String    @db.Text
-  images     Image[]
-  comments   Comment[]
-  likes      Like[]
-  shares     Share[]
-  created_at DateTime  @default(now())
-  updated_at DateTime?
-  user       User      @relation(fields: [userId], references: [id])
-  userId     Int
+  id        Int       @id @default(autoincrement())
+  title     String    @db.VarChar(255)
+  content   String    @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  likes     Like[]
+  images    Image[]
+  comments  Comment[]
+  share     Share[]
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
 
   @@map("posts")
 }
 
+model Like {
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
+  post       Post      @relation(fields: [postId], references: [id])
+  postId     Int
+  assignedAt DateTime  @default(now())
+  assignedBy DateTime?
+
+  @@id([userId, postId])
+  @@map("likes")
+}
+
 model Image {
-  id     Int    @id @default(autoincrement())
-  puth   String @db.VarChar(255)
-  post   Post   @relation(fields: [postId], references: [id])
-  postId Int
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
+  id        Int    @id @default(autoincrement())
+  imagePuth String @db.VarChar(255)
+  user      User   @relation(fields: [userId], references: [id])
+  userId    Int
+  post      Post   @relation(fields: [postId], references: [id])
+  postId    Int
 
   @@map("images")
 }
@@ -53,30 +66,20 @@ model Image {
 model Comment {
   id      Int    @id @default(autoincrement())
   comment String @db.Text
-  post    Post   @relation(fields: [postId], references: [id])
-  postId  Int
   user    User   @relation(fields: [userId], references: [id])
   userId  Int
+  post    Post   @relation(fields: [postId], references: [id])
+  postId  Int
 
   @@map("comments")
 }
 
 model Share {
   id     Int  @id @default(autoincrement())
-  post   Post @relation(fields: [postId], references: [id])
-  postId Int
   user   User @relation(fields: [userId], references: [id])
   userId Int
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
 
   @@map("shares")
-}
-
-model Like {
-  id     Int  @id @default(autoincrement())
-  post   Post @relation(fields: [postId], references: [id])
-  postId Int
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  @@map("likes")
 }

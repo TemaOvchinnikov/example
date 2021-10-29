@@ -9,6 +9,42 @@ export class PostsService {
   async findAll(): Promise<Post[]> {
     return this.prisma.post.findMany({
       include: {
+        images: {
+          select: {
+            id: true,
+          },
+        },
+        likes: {
+          take: 5,
+          select: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            avatar: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            images: true,
+            share: true,
+            comments: true,
+          },
+        },
+      },
+      /*
+      include: {
         user: {
           select: {
             firstname: true,
@@ -29,7 +65,7 @@ export class PostsService {
           },
         },
       },
-
+      */
       /*
       include: {
         users: {

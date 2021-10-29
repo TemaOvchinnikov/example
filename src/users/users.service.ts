@@ -24,7 +24,7 @@ export class UsersService {
     where: Prisma.UserWhereUniqueInput,
     data: Prisma.UserUpdateInput,
   ): Promise<User> {
-    data.updated_at = new Date().toISOString();
+    data.updatedAt = new Date().toISOString();
     return this.prisma.user.update({
       where,
       data,
