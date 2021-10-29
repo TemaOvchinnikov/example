@@ -12,6 +12,7 @@ export class PostsService {
         images: {
           select: {
             id: true,
+            imagePuth: true,
           },
         },
         likes: {
